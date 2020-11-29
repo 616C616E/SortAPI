@@ -189,6 +189,91 @@ namespace Sort.Service
         }
         #endregion
 
+        #region Dijkstra
+
+        public List<DijkstraReport> Dijkstra(int[][] graph)
+        {
+            int[] distance = new int[graph.Length];
+            bool[] isShortestPath = new bool[graph.Length];
+            int[] path = new int[graph.Length];
+
+            for (int i = 0; i < graph.Length; ++i)
+            {
+                path[0] = -1;
+                distance[i] = int.MaxValue;
+                isShortestPath[i] = false;
+            }
+
+            distance[0] = 0;
+
+            for (int count = 0; count < graph.Length - 1; ++count)
+            {
+                int u = ShortestPath(distance, isShortestPath, graph.Length);
+                isShortestPath[u] = true;
+
+                for (int v = 0; v < graph.Length; ++v)
+                {
+
+                    if (!isShortestPath[v] && Convert.ToBoolean(graph[u][v]) && distance[u] != int.MaxValue && distance[u] + graph[u][v] < distance[v])
+                    {
+                        distance[v] = distance[u] + graph[u][v];
+                        path[v] = u;
+                    }
+                }
+            }
+            return SaveDijkstraReport(0, distance,graph.Length,path);
+        }
+
+        private static int ShortestPath(int[] distance, bool[] isShortestPath, int length)
+        {
+            int min = int.MaxValue;
+            int minIndex = 0;
+
+            for (int v = 0; v < length; ++v)
+            {
+                if (isShortestPath[v] == false && distance[v] <= min)
+                {
+                    min = distance[v];
+                    minIndex = v;
+                }
+            }
+            return minIndex;
+        }
+
+        private List<DijkstraReport> SaveDijkstraReport(int source, int[] distance, int length, int[] path)
+        {
+            List<DijkstraReport> reportList = new List<DijkstraReport>();
+
+            for (int i = 0; i < length; i++)
+            {
+                DijkstraReport report = new DijkstraReport()
+                {
+                    Vertex = i,
+                    DistanceFromSource = distance[i],
+                    Path = new List<int>()
+                };
+                report.Path.Add(source);
+                
+                GeneratePath(ref report, path, i);
+
+                reportList.Add(report);
+            }
+
+            return reportList;
+        }
+
+        private void GeneratePath(ref DijkstraReport report, int[] path, int i)
+        {
+            if (path[i] == -1)
+                return;
+
+            GeneratePath(ref report, path, path[i]);
+
+            report.Path.Add(i);
+        }
+
+        #endregion
+
         #region MultiSort
         public MultiSortReport MultiSort(int arraySize, int iterations, int sortType)
         {

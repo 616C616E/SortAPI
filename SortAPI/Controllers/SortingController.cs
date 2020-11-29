@@ -66,5 +66,13 @@ namespace Sort.Api.Controllers
             var result = _sortService.QuickSort(arraySize);
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("/api/sorting/dijkstra/")]
+        public IActionResult Dijkstra([FromBody] int[][] graph)
+        {
+            var result = _sortService.Dijkstra(graph);
+            return Ok(result);
+        }
     }
 }
