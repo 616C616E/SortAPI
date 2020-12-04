@@ -191,12 +191,13 @@ namespace Sort.Service
 
         #region Dijkstra
 
-        public List<DijkstraReport> Dijkstra(int[][] graph)
+        public DijkstraFullReport Dijkstra(int[][] graph)
         {
             int[] distance = new int[graph.Length];
             bool[] isShortestPath = new bool[graph.Length];
             int[] path = new int[graph.Length];
 
+            var startTime = DateTime.Now;
             for (int i = 0; i < graph.Length; ++i)
             {
                 path[0] = -1;
@@ -221,7 +222,15 @@ namespace Sort.Service
                     }
                 }
             }
-            return SaveDijkstraReport(0, distance,graph.Length,path);
+            var endTime = DateTime.Now;
+
+            DijkstraFullReport fullReport = new DijkstraFullReport()
+            {
+                SecondsElapsed = (endTime - startTime).TotalSeconds,
+                MillisecondsElapsed = (endTime - startTime).TotalMilliseconds
+            };
+
+            return SaveDijkstraReport(0, distance, graph.Length, path, fullReport);
         }
 
         private static int ShortestPath(int[] distance, bool[] isShortestPath, int length)
@@ -240,7 +249,7 @@ namespace Sort.Service
             return minIndex;
         }
 
-        private List<DijkstraReport> SaveDijkstraReport(int source, int[] distance, int length, int[] path)
+        private DijkstraFullReport SaveDijkstraReport(int source, int[] distance, int length, int[] path, DijkstraFullReport fullReport)
         {
             List<DijkstraReport> reportList = new List<DijkstraReport>();
 
@@ -259,7 +268,9 @@ namespace Sort.Service
                 reportList.Add(report);
             }
 
-            return reportList;
+            fullReport.Reports = reportList;
+
+            return fullReport;
         }
 
         private void GeneratePath(ref DijkstraReport report, int[] path, int i)

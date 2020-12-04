@@ -11,6 +11,6 @@ namespace Sort.Service.Interface
         public MultiSortReport MultiSort(int arraySize, int iterations, int sortType);
         public SortReport MergeSort(int arraySize);
         public SortReport QuickSort(int arraySize);
-        public List<DijkstraReport> Dijkstra(int[][] graph);
+        public DijkstraFullReport Dijkstra(int[][] graph);
     }
 }

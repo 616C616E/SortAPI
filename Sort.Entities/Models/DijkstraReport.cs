@@ -10,4 +10,11 @@ namespace Sort.Entities.Models
         public int DistanceFromSource { get; set; }
         public List<int> Path { get; set; }
     }
+
+    public class DijkstraFullReport
+    {
+        public double SecondsElapsed { get; set; }
+        public double MillisecondsElapsed { get; set; }
+        public List<DijkstraReport> Reports { get; set; }
+    }
 }
