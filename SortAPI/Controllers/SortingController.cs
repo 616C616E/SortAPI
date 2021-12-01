@@ -10,7 +10,7 @@ using Sort.Service.Interface;
 
 namespace Sort.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("sort/api/[controller]")]
     [ApiController]
     public class SortingController : ControllerBase
     {
@@ -24,7 +24,7 @@ namespace Sort.Api.Controllers
         }
 
         [HttpGet]
-        [Route("/api/sorting/ping")]
+        [Route("ping")]
         public IActionResult Ping()
         {
             return Ok(new
@@ -36,7 +36,7 @@ namespace Sort.Api.Controllers
         }
 
         [HttpGet]
-        [Route("/api/sorting/insertionsort/")]
+        [Route("insertionsort")]
         public IActionResult InsertSort([FromQuery]int arraySize)
         {
             var result = _sortService.InsertionSort(arraySize);
@@ -44,7 +44,7 @@ namespace Sort.Api.Controllers
         }
         
         [HttpGet]
-        [Route("/api/sorting/multisort/")]
+        [Route("multisort")]
         public IActionResult MultiSort([FromQuery]int arraySize, [FromQuery]int iterations, [FromQuery]int sortType)
         {
             var result = _sortService.MultiSort(arraySize, iterations, sortType);
@@ -52,7 +52,7 @@ namespace Sort.Api.Controllers
         }
 
         [HttpGet]
-        [Route("/api/sorting/mergesort/")]
+        [Route("mergesort")]
         public IActionResult MergeSort([FromQuery]int arraySize)
         {
             var result = _sortService.MergeSort(arraySize);
@@ -60,7 +60,7 @@ namespace Sort.Api.Controllers
         }
 
         [HttpGet]
-        [Route("/api/sorting/quicksort/")]
+        [Route("quicksort")]
         public IActionResult QuickSort([FromQuery]int arraySize)
         {
             var result = _sortService.QuickSort(arraySize);
@@ -68,7 +68,7 @@ namespace Sort.Api.Controllers
         }
 
         [HttpPost]
-        [Route("/api/sorting/dijkstra/")]
+        [Route("dijkstra")]
         public IActionResult Dijkstra([FromBody] int[][] graph)
         {
             var result = _sortService.Dijkstra(graph);

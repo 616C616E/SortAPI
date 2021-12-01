@@ -30,6 +30,7 @@ namespace Sort.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ISortService, SortService>();
+            services.AddTransient<IDBSortingService, DBSortingService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -57,7 +58,7 @@ namespace Sort.Api
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-            var swaggerBasePath = "api/sorting";
+            var swaggerBasePath = "sort/api";
             app.UseSwagger(c =>
             {
                 c.RouteTemplate = swaggerBasePath + "/swagger/{documentName}/swagger.json";
